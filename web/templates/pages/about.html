@@ -1,0 +1,47 @@
+{{define "content"}}
+<div class="page-header">
+    <h1>About This Project</h1>
+    <p>A modern web application template</p>
+</div>
+
+<section class="about-section">
+    <h2>Tech Stack</h2>
+    <ul class="tech-list">
+        <li><strong>Backend:</strong> Go + Gin</li>
+        <li><strong>Frontend:</strong> HTML + HTMX</li>
+        <li><strong>Database:</strong> PostgreSQL + GORM</li>
+        <li><strong>Architecture:</strong> Clean Architecture</li>
+    </ul>
+</section>
+
+<section class="about-section">
+    <h2>Project Structure</h2>
+    <pre class="code-block">
+.
+├── cmd/server/         # Application entry point
+├── internal/           # Core business logic
+│   ├── config/        # Configuration
+│   ├── handler/       # HTTP handlers
+│   ├── middleware/    # Middleware
+│   ├── model/         # Data models
+│   ├── repository/    # Database operations
+│   ├── router/        # Route definitions
+│   └── service/       # Business logic
+└── web/
+    ├── static/        # CSS, JS, assets
+    └── templates/     # HTML templates
+    </pre>
+</section>
+
+<section class="about-section">
+    <h2>Key Features</h2>
+    <ul class="feature-list">
+        <li>HTMX for seamless interactions</li>
+        <li>Server-side rendering with Go templates</li>
+        <li>RESTful API endpoints</li>
+        <li>PostgreSQL database with GORM</li>
+        <li>Environment-based configuration</li>
+        <li>Middleware for logging, CORS, security</li>
+    </ul>
+</section>
+{{end}}

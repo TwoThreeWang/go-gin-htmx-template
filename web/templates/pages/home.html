@@ -1,0 +1,41 @@
+{{define "content"}}
+<div class="hero">
+    <h1>Welcome to Gin HTMX Template</h1>
+    <p>A modern web template built with Go, Gin, and HTMX</p>
+    <div class="hero-actions">
+        <a href="/users" class="btn btn-primary">View Users</a>
+        <a href="/contact" class="btn btn-secondary">Contact Us</a>
+    </div>
+</div>
+
+<section class="features">
+    <h2>Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Fast & Lightweight</h3>
+            <p>Built on Gin, one of the fastest Go web frameworks</p>
+        </div>
+        <div class="feature-card">
+            <h3>HTMX Powered</h3>
+            <p>Dynamic interactions without writing JavaScript</p>
+        </div>
+        <div class="feature-card">
+            <h3>Clean Architecture</h3>
+            <p>Organized codebase following Go best practices</p>
+        </div>
+        <div class="feature-card">
+            <h3>PostgreSQL Ready</h3>
+            <p>Database integration with GORM</p>
+        </div>
+    </div>
+</section>
+
+<section class="demo-section">
+    <h2>HTMX Demo: Live User Count</h2>
+    <p>Click the button to fetch user count without page reload:</p>
+    <button hx-get="/users/count" hx-trigger="click" hx-swap="innerHTML" class="btn btn-primary">
+        Get User Count
+    </button>
+    <div id="user-count" class="demo-result"></div>
+</section>
+{{end}}

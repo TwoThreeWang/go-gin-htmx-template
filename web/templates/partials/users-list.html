@@ -1,0 +1,22 @@
+{{if .Success}}
+<div class="alert alert-success">{{.Success}}</div>
+{{end}}
+{{if .Error}}
+<div class="alert alert-error">{{.Error}}</div>
+{{end}}
+{{range .Users}}
+<tr>
+    <td>{{.ID}}</td>
+    <td>{{.Username}}</td>
+    <td>{{.Email}}</td>
+    <td>
+        <button hx-delete="/users/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML" class="btn btn-danger btn-small">
+            Delete
+        </button>
+    </td>
+</tr>
+{{else}}
+<tr>
+    <td colspan="5" class="empty-message">No users found. Add one above!</td>
+</tr>
+{{end}}

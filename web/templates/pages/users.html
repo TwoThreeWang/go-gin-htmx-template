@@ -1,0 +1,71 @@
+{{define "content"}}
+<div class="page-header">
+    <h1>User Management</h1>
+    <p>Manage users with HTMX - no page reloads!</p>
+</div>
+
+<div class="users-container">
+    <div class="users-stats">
+        <span>Total Users: <strong id="total-users">{{.Count}}</strong></span>
+        <button hx-get="/users/list" hx-target="#users-table-body" hx-swap="innerHTML" class="btn btn-small">
+            Refresh
+        </button>
+    </div>
+
+    <div class="user-form-section">
+        <h3>Add New User</h3>
+        <form hx-post="/users" hx-target="#users-table-body" hx-swap="innerHTML" class="user-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required minlength="3" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter email">
+            </div>
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </form>
+    </div>
+
+    <div class="users-table-section">
+        <h3>User List</h3>
+        <table class="users-table" id="users-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                {{range .Users}}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td>{{.Username}}</td>
+                    <td>{{.Email}}</td>
+                    <td>
+                        <button hx-delete="/users/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML" class="btn btn-danger btn-small">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="5" class="empty-message">No users found. Add one above!</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="api-demo">
+    <h3>API Demo</h3>
+    <p>Try the REST API: <code>GET /api/users</code></p>
+    <button hx-get="/api/users" hx-target="#api-result" hx-swap="innerHTML" class="btn btn-secondary">
+        Fetch API Data
+    </button>
+    <pre id="api-result" class="api-result"></pre>
+</div>
+{{end}}
