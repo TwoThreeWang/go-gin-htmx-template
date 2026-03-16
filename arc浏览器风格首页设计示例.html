@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My App</title>
+    <style>
+      :root {
+        --bg: #f0ede8;
+        --card-bg: #fdfcfa;
+        --accent: #d97757;
+        --accent-soft: #f2e8e3;
+        --text-pri: #1e1b18;
+        --text-sec: #7a7069;
+        --text-muted: #b0a89e;
+        --border: rgba(0, 0, 0, 0.07);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+        --radius: 12px;
+        --sidebar-w: 240px;
+        --sidebar-col: 64px;
+        --top-h: 50px;
+        --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      /* Dark theme */
+      body[data-theme="dark"] {
+        --bg: #1e1b18;
+        --card-bg: #2a2724;
+        --accent: #e08262;
+        --accent-soft: #3a332f;
+        --text-pri: #f0ede8;
+        --text-sec: #b0a89e;
+        --text-muted: #7a7069;
+        --border: rgba(255, 255, 255, 0.07);
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text-pri);
+        min-height: 100vh;
+        line-height: 1.65;
+        display: flex;
+        overflow: hidden;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased; /* 让字体边缘更细腻，防止锯齿 */
+        -moz-osx-font-smoothing: grayscale; /* Firefox 优化 */
+      }
+
+      /* ─── SIDEBAR ─────────────────────────────────────── */
+      #sidebar {
+        width: var(--sidebar-w);
+        min-width: var(--sidebar-w);
+        height: 100vh;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        transition: width var(--transition), min-width var(--transition);
+        position: relative;
+        z-index: 2;
+        overflow: visible;
+        -webkit-mask-image: linear-gradient(
+          to right,
+          black 0%,
+          black 78%,
+          transparent 100%
+        );
+        mask-image: linear-gradient(
+          to right,
+          black 0%,
+          black 78%,
+          transparent 100%
+        );
+      }
+
+      body.collapsed #sidebar {
+        width: var(--sidebar-col);
+        min-width: var(--sidebar-col);
+        -webkit-mask-image: linear-gradient(
+          to right,
+          black 0%,
+          black 60%,
+          transparent 100%
+        );
+        mask-image: linear-gradient(
+          to right,
+          black 0%,
+          black 60%,
+          transparent 100%
+        );
+      }
+
+      /* Logo header */
+      .sidebar-header {
+        padding: 16px 12px 12px;
+        min-height: 60px;
+      }
+
+      .sidebar-logo,
+      .topnav-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        white-space: nowrap;
+        overflow: hidden;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .logo-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: var(--accent);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+
+      .logo-text {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-pri);
+        letter-spacing: -0.3px;
+        transition: opacity var(--transition);
+      }
+      body.collapsed .logo-text {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Nav */
+      nav {
+        flex: 1;
+        padding: 4px 10px;
+        overflow: hidden auto;
+      }
+
+      .nav-section {
+        margin-bottom: 20px;
+      }
+      .nav-label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--text-muted);
+        padding: 0 6px 6px;
+        white-space: nowrap;
+        transition: opacity var(--transition);
+      }
+      body.collapsed .nav-label {
+        opacity: 0;
+      }
+
+      .nav-item,
+      .collapse-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        color: var(--text-sec);
+        font-size: 13.5px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: background var(--transition), color var(--transition);
+        position: relative;
+        border: none;
+        background: transparent;
+        text-align: left;
+        width: 100%;
+      }
+      .nav-item:hover,
+      .collapse-btn:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text-pri);
+      }
+      .nav-item.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .nav-item .icon,
+      .collapse-btn .icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        font-size: 15px;
+      }
+      .nav-item .label,
+      .collapse-btn .label {
+        transition: opacity var(--transition);
+      }
+      body.collapsed .nav-item .label,
+      body.collapsed .collapse-btn .label {
+        opacity: 0;
+      }
+
+      /* Tooltip for collapsed */
+      body.collapsed .nav-item::after {
+        content: attr(data-tip);
+        position: absolute;
+        left: calc(var(--sidebar-col) + 8px);
+        background: var(--text-pri);
+        color: #fff;
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 7px;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s;
+        z-index: 999;
+      }
+      body.collapsed .nav-item:hover::after {
+        opacity: 1;
+      }
+
+      body.collapsed .collapse-btn .icon {
+        transform: rotate(180deg);
+      }
+
+      /* Badge */
+      .badge {
+        margin-left: auto;
+        background: var(--accent);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 20px;
+        min-width: 18px;
+        text-align: center;
+        transition: opacity var(--transition);
+      }
+      body.collapsed .badge {
+        opacity: 0;
+      }
+
+      /* Sidebar footer */
+      .sidebar-footer {
+        padding: 12px 10px 16px;
+        border-top: 1px solid var(--border);
+        overflow: hidden;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-bottom: 14px;
+      }
+
+      .footer-info {
+        font-size: 11px;
+        color: var(--text-muted);
+        white-space: nowrap;
+        transition: opacity var(--transition);
+        line-height: 1.6;
+        text-align: center;
+      }
+      body.collapsed .footer-info {
+        opacity: 0;
+      }
+
+      /* ─── MAIN AREA ────────────────────────────────────── */
+      #main {
+        flex: 1;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 6px 6px 6px 12px;
+      }
+
+      /* Floating content card */
+      .content-card {
+        flex: 1;
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 0;
+        animation: fadeUp 0.35s ease both;
+      }
+
+      /* Inner top bar */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        height: 52px;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+      }
+
+      .topbar-title {
+        font-size: 15px;
+        font-weight: 650;
+        color: var(--text-pri);
+        letter-spacing: -0.2px;
+      }
+
+      .topbar-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 9px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 550;
+        transition: background var(--transition), transform 0.1s;
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #c4643d;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--text-sec);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-color: var(--accent-soft);
+      }
+
+      /* Scrollable content body */
+      .content-body {
+        flex: 1;
+        padding: 24px;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+        overflow-y: overlay;
+      }
+      .content-body:hover {
+        scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+      }
+      .content-body::-webkit-scrollbar {
+        width: 4px;
+      }
+      .content-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .content-body::-webkit-scrollbar-thumb {
+        background: transparent;
+        border-radius: 99px;
+        transition: background 0.2s;
+      }
+      .content-body:hover::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.15);
+      }
+      .content-body::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      /* Demo content styles */
+      .page-heading {
+        font-size: 22px;
+        font-weight: 730;
+        letter-spacing: -0.4px;
+        color: var(--text-pri);
+        margin-bottom: 6px;
+      }
+      .page-sub {
+        font-size: 13.5px;
+        color: var(--text-sec);
+        margin-bottom: 28px;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 14px;
+        margin-bottom: 28px;
+      }
+
+      .stat-card {
+        background: var(--bg);
+        border-radius: 10px;
+        padding: 18px;
+        border: 1px solid var(--border);
+      }
+      .stat-card .s-label {
+        font-size: 11.5px;
+        color: var(--text-muted);
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+      .stat-card .s-val {
+        font-size: 26px;
+        font-weight: 750;
+        letter-spacing: -0.5px;
+      }
+      .stat-card .s-change {
+        font-size: 11.5px;
+        color: #5bad8a;
+        margin-top: 4px;
+      }
+
+      .section-title {
+        font-size: 14px;
+        font-weight: 650;
+        margin-bottom: 12px;
+        color: var(--text-pri);
+      }
+
+      .list-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .list-item:last-child {
+        border-bottom: none;
+      }
+      .item-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--accent-soft);
+        display: grid;
+        place-items: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .item-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .item-name {
+        font-size: 13.5px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .item-desc {
+        font-size: 12px;
+        color: var(--text-sec);
+        margin-top: 2px;
+      }
+      .item-tag {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      /* ─── MOBILE TOP NAV ──────────────────────────────── */
+      #topnav {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--top-h);
+        background: var(--bg);
+        padding: 0 16px;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+      }
+
+      /* Hamburger */
+      .ham {
+        width: 36px;
+        height: 36px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        padding: 6px;
+        border-radius: 9px;
+      }
+      .ham:hover {
+        background: rgba(0, 0, 0, 0.06);
+      }
+      .ham-lines {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        width: 20px;
+      }
+      .ham-lines span {
+        display: block;
+        height: 2px;
+        background: var(--text-pri);
+        border-radius: 2px;
+        transition: transform var(--transition), opacity var(--transition);
+        transform-origin: center;
+      }
+      body.mob-open .ham-lines span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      body.mob-open .ham-lines span:nth-child(2) {
+        opacity: 0;
+      }
+      body.mob-open .ham-lines span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* Mobile overlay */
+      #overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 80;
+        backdrop-filter: blur(2px);
+      }
+      body.mob-open #overlay {
+        display: block;
+      }
+
+      p {
+        margin-bottom: 1.5em; /* 段落间留白 */
+      }
+
+      /* ─── RESPONSIVE ──────────────────────────────────── */
+      @media (max-width: 768px) {
+        body {
+          display: block;
+        }
+        #topnav {
+          display: flex;
+        }
+        #sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          width: var(--sidebar-w);
+          min-width: var(--sidebar-w);
+          z-index: 90;
+          transform: translateX(-100%);
+          transition: transform var(--transition);
+          background: var(--bg);
+          overflow: hidden;
+          -webkit-mask-image: none;
+          mask-image: none;
+        }
+        body.mob-open #sidebar {
+          transform: translateX(0);
+        }
+        .collapse-btn {
+          display: none;
+        }
+        #main {
+          height: 100vh;
+          padding: calc(var(--top-h) + 6px) 6px 6px;
+        }
+      }
+
+      /* 隐藏滚动条但仍可滚动 */
+      .hide-scrollbar {
+        overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── MOBILE TOP NAV ── -->
+    <nav id="topnav">
+      <a class="topnav-logo" href="#">
+        <div class="logo-icon">M</div>
+        <span class="logo-text">MyApp</span>
+      </a>
+      <button class="ham" id="hamBtn" aria-label="菜单">
+        <div class="ham-lines"><span></span><span></span><span></span></div>
+      </button>
+    </nav>
+
+    <!-- ── OVERLAY ── -->
+    <div id="overlay"></div>
+
+    <!-- ── SIDEBAR ── -->
+    <aside id="sidebar">
+      <div class="sidebar-header">
+        <a class="sidebar-logo" href="#">
+          <div class="logo-icon">M</div>
+          <span class="logo-text">MyApp</span>
+        </a>
+      </div>
+
+      <nav class="hide-scrollbar">
+        <div class="nav-section">
+          <div class="nav-label">主菜单</div>
+          <a class="nav-item active" href="#" data-tip="概览">
+            <span class="icon">⊞</span>
+            <span class="label">概览</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="消息">
+            <span class="icon">✉</span>
+            <span class="label">消息</span>
+            <span class="badge">4</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="项目">
+            <span class="icon">◫</span>
+            <span class="label">项目</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="分析">
+            <span class="icon">◎</span>
+            <span class="label">分析</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="日历">
+            <span class="icon">◻</span>
+            <span class="label">日历</span>
+          </a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-label">管理</div>
+          <a class="nav-item" href="#" data-tip="团队">
+            <span class="icon">◈</span>
+            <span class="label">团队</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="设置">
+            <span class="icon">⚙</span>
+            <span class="label">设置</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-links">
+          <a class="nav-item" href="#" data-tip="帮助">
+            <span class="icon">?</span>
+            <span class="label">帮助中心</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="反馈">
+            <span class="icon">♡</span>
+            <span class="label">反馈</span>
+          </a>
+          <a class="nav-item" href="#" data-tip="主题" id="themeToggle">
+            <span class="icon">🌙</span>
+            <span class="label">夜间模式</span>
+          </a>
+          <button class="collapse-btn" id="collapseBtn" data-tip="展开">
+            <span class="icon">‹</span>
+            <span class="label">收起侧栏</span>
+          </button>
+        </div>
+        <div class="footer-info">
+          <div>© 2025 MyApp Inc.</div>
+          <div style="margin-top: 2px">
+            v1.0.0 ·
+            <a href="#" style="color: var(--accent); text-decoration: none"
+              >隐私政策</a
+            >
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main id="main">
+      <div class="content-card">
+        <div class="topbar">
+          <span class="topbar-title">概览</span>
+          <div class="topbar-actions">
+            <button class="btn btn-ghost">导出</button>
+            <button class="btn btn-primary">+ 新建</button>
+          </div>
+        </div>
+
+        <div class="content-body">
+          <h1 class="page-heading">欢迎回来 👋</h1>
+          <p class="page-sub">这是你的工作台，今天有 4 条新消息。</p>
+
+          <div class="cards-grid">
+            <div class="stat-card">
+              <div class="s-label">总项目</div>
+              <div class="s-val">48</div>
+              <div class="s-change">↑ 12% 较上月</div>
+            </div>
+            <div class="stat-card">
+              <div class="s-label">进行中</div>
+              <div class="s-val">13</div>
+              <div class="s-change">↑ 3 个本周</div>
+            </div>
+            <div class="stat-card">
+              <div class="s-label">团队成员</div>
+              <div class="s-val">9</div>
+              <div class="s-change">↑ 1 人本月加入</div>
+            </div>
+            <div class="stat-card">
+              <div class="s-label">完成率</div>
+              <div class="s-val">87%</div>
+              <div class="s-change">↑ 5% 较上季</div>
+            </div>
+          </div>
+
+          <div class="section-title">最近活动</div>
+          <div>
+            <div class="list-item">
+              <div class="item-avatar">📂</div>
+              <div class="item-body">
+                <div class="item-name">设计系统重构</div>
+                <div class="item-desc">Anna 更新了组件库 · 2小时前</div>
+              </div>
+              <span class="item-tag">进行中</span>
+            </div>
+            <div class="list-item">
+              <div class="item-avatar">🚀</div>
+              <div class="item-body">
+                <div class="item-name">v2.3 发布</div>
+                <div class="item-desc">CI/CD 流水线完成 · 5小时前</div>
+              </div>
+              <span class="item-tag" style="background: #e3f5ec; color: #5bad8a"
+                >已完成</span
+              >
+            </div>
+            <div class="list-item">
+              <div class="item-avatar">📊</div>
+              <div class="item-body">
+                <div class="item-name">Q3 数据报告</div>
+                <div class="item-desc">Tom 请求审核 · 昨天</div>
+              </div>
+              <span class="item-tag" style="background: #f5ede3; color: #c47a3a"
+                >待审核</span
+              >
+            </div>
+            <div class="list-item">
+              <div class="item-avatar">💬</div>
+              <div class="item-body">
+                <div class="item-name">用户反馈整理</div>
+                <div class="item-desc">整理了 32 条用户建议 · 2天前</div>
+              </div>
+              <span class="item-tag">进行中</span>
+            </div>
+            <div class="list-item">
+              <div class="item-avatar">🔐</div>
+              <div class="item-body">
+                <div class="item-name">安全审计</div>
+                <div class="item-desc">第三方安全评估报告 · 3天前</div>
+              </div>
+              <span class="item-tag" style="background: #e3f5ec; color: #5bad8a"
+                >已完成</span
+              >
+            </div>
+          </div>
+
+          <div>
+            <p>这是第一段文字。这一段用于演示 HTML 段落排版效果。</p>
+
+            <p>
+              这是第二段文字。通过 CSS 设置 margin-bottom，
+              可以让段落之间出现明显的空白间距。
+              可以让段落之间出现明显的空白间距。
+              可以让段落之间出现明显的空白间距。
+              可以让段落之间出现明显的空白间距。
+              可以让段落之间出现明显的空白间距。
+            </p>
+
+            <p>
+              这是第三段文字。这种排版方式在博客、文章、
+              公众号页面等场景中非常常见。
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const body = document.body;
+      const collapseBtn = document.getElementById("collapseBtn");
+      const hamBtn = document.getElementById("hamBtn");
+      const overlay = document.getElementById("overlay");
+      const themeToggle = document.getElementById("themeToggle");
+      const themeIcon = themeToggle.querySelector(".icon");
+      const themeLabel = themeToggle.querySelector(".label");
+
+      // Theme toggle
+      function initTheme() {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        body.setAttribute("data-theme", savedTheme);
+        updateThemeUI(savedTheme);
+      }
+
+      function updateThemeUI(theme) {
+        if (theme === "dark") {
+          themeIcon.textContent = "☀️";
+          themeLabel.textContent = "日间模式";
+          themeToggle.setAttribute("data-tip", "日间");
+        } else {
+          themeIcon.textContent = "🌙";
+          themeLabel.textContent = "夜间模式";
+          themeToggle.setAttribute("data-tip", "主题");
+        }
+      }
+
+      function toggleTheme() {
+        const currentTheme = body.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateThemeUI(newTheme);
+      }
+
+      // PC collapse
+      collapseBtn.addEventListener("click", () =>
+        body.classList.toggle("collapsed")
+      );
+
+      // Mobile menu
+      const toggleMob = (open) => body.classList.toggle("mob-open", open);
+      hamBtn.addEventListener("click", () =>
+        toggleMob(!body.classList.contains("mob-open"))
+      );
+      overlay.addEventListener("click", () => toggleMob(false));
+
+      // Theme toggle
+      themeToggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleTheme();
+      });
+
+      // Nav active state
+      document.querySelectorAll(".nav-item").forEach((item) => {
+        if (item.id === "themeToggle") return;
+        item.addEventListener("click", function (e) {
+          e.preventDefault();
+          document
+            .querySelectorAll(".nav-item")
+            .forEach((i) => i.classList.remove("active"));
+          this.classList.add("active");
+          // Update topbar title
+          const label = this.querySelector(".label");
+          if (label)
+            document.querySelector(".topbar-title").textContent =
+              label.textContent.trim();
+          // Close mobile menu
+          if (window.innerWidth <= 768) toggleMob(false);
+        });
+      });
+
+      // Initialize theme on load
+      initTheme();
+    </script>
+  </body>
+</html>
