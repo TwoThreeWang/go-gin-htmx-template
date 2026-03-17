@@ -14,8 +14,6 @@
         --text-sec: #7a7069;
         --text-muted: #b0a89e;
         --border: rgba(0, 0, 0, 0.07);
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.04);
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
         --radius: 12px;
         --sidebar-w: 240px;
         --sidebar-col: 64px;
@@ -32,7 +30,6 @@
         --text-sec: #b0a89e;
         --text-muted: #7a7069;
         --border: rgba(255, 255, 255, 0.07);
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
       }
 
       *,
@@ -68,18 +65,6 @@
         position: relative;
         z-index: 2;
         overflow: visible;
-        -webkit-mask-image: linear-gradient(
-          to right,
-          black 0%,
-          black 78%,
-          transparent 100%
-        );
-        mask-image: linear-gradient(
-          to right,
-          black 0%,
-          black 78%,
-          transparent 100%
-        );
       }
 
       body.collapsed #sidebar {
@@ -288,7 +273,7 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        padding: 6px 6px 6px 12px;
+        padding: 6px;
       }
 
       /* Floating content card */
@@ -296,7 +281,6 @@
         flex: 1;
         background: var(--card-bg);
         border-radius: var(--radius);
-        box-shadow: var(--shadow);
         display: flex;
         flex-direction: column;
         overflow: hidden;
