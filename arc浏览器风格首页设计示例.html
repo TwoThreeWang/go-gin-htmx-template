@@ -20,8 +20,7 @@
         --top-h: 50px;
         --transition: 0.15s ease;
       }
-      /* Dark theme */
-      body[data-theme="dark"] {
+      [data-theme="dark"] {
         --bg: #1d1b18;
         --card-bg: #2a2724;
         --accent: #e67a5d;
@@ -31,7 +30,6 @@
         --text-muted: #a6a199;
         --border: #37342f;
       }
-
       *,
       *::before,
       *::after {
@@ -39,11 +37,9 @@
         margin: 0;
         padding: 0;
       }
-
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-          "Segoe UI Emoji";
+          "Helvetica Neue", Arial, sans-serif;
         background: var(--bg);
         color: var(--text-pri);
         min-height: 100vh;
@@ -52,10 +48,7 @@
         overflow: hidden;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
       }
-
-      /* ─── SIDEBAR ─────────────────────────────────────── */
       #sidebar {
         width: var(--sidebar-w);
         min-width: var(--sidebar-w);
@@ -68,18 +61,14 @@
         z-index: 2;
         overflow: visible;
       }
-
-      body.collapsed #sidebar {
+      .collapsed #sidebar {
         width: var(--sidebar-col);
         min-width: var(--sidebar-col);
       }
-
-      /* Logo header */
       .sidebar-header {
         padding: 16px 10px 12px;
         min-height: 60px;
       }
-
       .sidebar-logo,
       .topnav-logo {
         display: flex;
@@ -91,7 +80,6 @@
         flex: 1;
         min-width: 0;
       }
-
       .logo-icon {
         width: 32px;
         height: 32px;
@@ -106,7 +94,6 @@
         font-weight: 700;
         letter-spacing: -0.5px;
       }
-
       .logo-text {
         font-size: 15px;
         font-weight: 700;
@@ -114,26 +101,20 @@
         letter-spacing: -0.3px;
         transition: opacity var(--transition), width var(--transition);
       }
-      body.collapsed .logo-text {
+      .collapsed .logo-text {
         opacity: 0;
         width: 0;
         overflow: hidden;
-        margin: 0;
-        padding: 0;
-        pointer-events: none;
       }
-      body.collapsed .sidebar-logo {
+      .collapsed .sidebar-logo {
         justify-content: center;
         gap: 0;
       }
-
-      /* Nav */
       nav {
         flex: 1;
         padding: 4px 8px;
         overflow: hidden auto;
       }
-
       .nav-section {
         margin-bottom: 20px;
       }
@@ -147,10 +128,9 @@
         white-space: nowrap;
         transition: opacity var(--transition);
       }
-      body.collapsed .nav-label {
+      .collapsed .nav-label {
         opacity: 0;
       }
-
       .nav-item,
       .collapse-btn {
         display: flex;
@@ -171,8 +151,8 @@
         text-align: left;
         width: 100%;
       }
-      body.collapsed .nav-item,
-      body.collapsed .collapse-btn {
+      .collapsed .nav-item,
+      .collapsed .collapse-btn {
         gap: 0;
         justify-content: center;
       }
@@ -193,7 +173,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: margin var(--transition);
       }
       .nav-item .icon svg,
       .collapse-btn .icon svg {
@@ -205,47 +184,13 @@
         stroke-linecap: round;
         stroke-linejoin: round;
       }
-      body.collapsed .nav-item .icon,
-      body.collapsed .collapse-btn .icon {
-        margin: 0;
-      }
-
-      .item-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        background: var(--accent-soft);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-      }
-      .item-avatar svg {
-        width: 18px;
-        height: 18px;
-        stroke: var(--accent);
-        stroke-width: 1.75;
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
-      .nav-item .label,
-      .collapse-btn .label {
-        transition: opacity var(--transition);
-      }
-      body.collapsed .nav-item .label,
-      body.collapsed .collapse-btn .label {
+      .collapsed .nav-item .label,
+      .collapsed .collapse-btn .label {
         opacity: 0;
         width: 0;
         overflow: hidden;
-        margin: 0;
-        padding: 0;
-        border: none;
-        flex-shrink: 0;
       }
-
-      /* Tooltip for collapsed */
-      body.collapsed .nav-item::after {
+      .collapsed .nav-item::after {
         content: attr(data-tip);
         position: absolute;
         left: 100%;
@@ -261,28 +206,23 @@
         transition: opacity 0.15s;
         z-index: 999;
       }
-      body.collapsed .nav-item:hover::after {
+      .collapsed .nav-item:hover::after {
         opacity: 1;
       }
-
-      body.collapsed .collapse-btn .icon {
+      .collapsed .collapse-btn .icon {
         transform: rotate(180deg);
       }
-
-      /* Sidebar footer */
       .sidebar-footer {
         padding: 12px 8px 16px;
         border-top: 1px solid var(--border);
         overflow: hidden;
       }
-
       .footer-links {
         display: flex;
         flex-direction: column;
         gap: 2px;
         margin-bottom: 14px;
       }
-
       .footer-info {
         font-size: 11px;
         color: var(--text-muted);
@@ -291,11 +231,9 @@
         line-height: 1.6;
         text-align: center;
       }
-      body.collapsed .footer-info {
+      .collapsed .footer-info {
         opacity: 0;
       }
-
-      /* ─── MAIN AREA ────────────────────────────────────── */
       #main {
         flex: 1;
         height: 100vh;
@@ -304,8 +242,6 @@
         flex-direction: column;
         padding: 6px;
       }
-
-      /* Floating content card */
       .content-card {
         flex: 1;
         background: var(--card-bg);
@@ -316,8 +252,6 @@
         min-height: 0;
         animation: fadeUp 0.35s ease both;
       }
-
-      /* Inner top bar */
       .topbar {
         display: flex;
         align-items: center;
@@ -327,20 +261,17 @@
         border-bottom: 1px solid var(--border);
         flex-shrink: 0;
       }
-
       .topbar-title {
         font-size: 15px;
         font-weight: 650;
         color: var(--text-pri);
         letter-spacing: -0.2px;
       }
-
       .topbar-actions {
         display: flex;
         gap: 8px;
         align-items: center;
       }
-
       .btn {
         display: inline-flex;
         align-items: center;
@@ -373,15 +304,11 @@
         color: var(--accent);
         border-color: var(--accent-soft);
       }
-
-      /* Scrollable content body */
       .content-body {
         flex: 1;
         padding: 24px;
-        scroll-behavior: smooth;
-        scrollbar-width: thin;
-        scrollbar-color: #e8e4e0 #f8f7f5;
         overflow-y: auto;
+        scroll-behavior: smooth;
       }
       .content-body::-webkit-scrollbar {
         width: 6px;
@@ -396,8 +323,6 @@
       .content-body::-webkit-scrollbar-thumb:hover {
         background: #d6d2ce;
       }
-
-      /* Demo content styles */
       .page-heading {
         font-size: 24px;
         font-weight: 700;
@@ -410,14 +335,12 @@
         color: var(--text-sec);
         margin-bottom: 28px;
       }
-
       .cards-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 14px;
         margin-bottom: 28px;
       }
-
       .stat-card {
         background: var(--bg);
         border-radius: 8px;
@@ -441,14 +364,12 @@
         margin-top: 4px;
         font-weight: 500;
       }
-
       .section-title {
         font-size: 15px;
         font-weight: 600;
         margin-bottom: 12px;
         color: var(--text-pri);
       }
-
       .list-item {
         display: flex;
         align-items: center;
@@ -484,8 +405,33 @@
         color: var(--accent);
         letter-spacing: 0.2px;
       }
-
-      /* ─── MOBILE TOP NAV ──────────────────────────────── */
+      .item-tag.green {
+        background: #e0f2f1;
+        color: #0d9488;
+      }
+      .item-tag.orange {
+        background: #fff3e0;
+        color: #f97316;
+      }
+      .item-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: var(--accent-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .item-avatar svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--accent);
+        stroke-width: 1.75;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
       #topnav {
         display: none;
         position: fixed;
@@ -499,8 +445,6 @@
         justify-content: space-between;
         z-index: 100;
       }
-
-      /* Hamburger */
       .ham {
         width: 36px;
         height: 36px;
@@ -529,17 +473,15 @@
         transition: transform var(--transition), opacity var(--transition);
         transform-origin: center;
       }
-      body.mob-open .ham-lines span:nth-child(1) {
+      .mob-open .ham-lines span:nth-child(1) {
         transform: translateY(7px) rotate(45deg);
       }
-      body.mob-open .ham-lines span:nth-child(2) {
+      .mob-open .ham-lines span:nth-child(2) {
         opacity: 0;
       }
-      body.mob-open .ham-lines span:nth-child(3) {
+      .mob-open .ham-lines span:nth-child(3) {
         transform: translateY(-7px) rotate(-45deg);
       }
-
-      /* Mobile overlay */
       #overlay {
         display: none;
         position: fixed;
@@ -547,16 +489,13 @@
         background: rgba(0, 0, 0, 0.4);
         z-index: 80;
       }
-      body.mob-open #overlay {
+      .mob-open #overlay {
         display: block;
       }
-
       p {
-        margin-bottom: 1.6em; /* 增加段落间距 */
-        line-height: 1.75; /* 为段落设置更舒适的行高 */
+        margin-bottom: 1.6em;
+        line-height: 1.75;
       }
-
-      /* ─── RESPONSIVE ──────────────────────────────────── */
       @media (max-width: 768px) {
         body {
           display: block;
@@ -576,10 +515,8 @@
           transition: transform var(--transition);
           background: var(--bg);
           overflow: hidden;
-          -webkit-mask-image: none;
-          mask-image: none;
         }
-        body.mob-open #sidebar {
+        .mob-open #sidebar {
           transform: translateX(0);
         }
         .collapse-btn {
@@ -590,8 +527,6 @@
           padding: calc(var(--top-h) + 6px) 6px 6px;
         }
       }
-
-      /* 隐藏滚动条但仍可滚动 */
       .hide-scrollbar {
         overflow: auto;
         scrollbar-width: none;
@@ -600,7 +535,6 @@
       .hide-scrollbar::-webkit-scrollbar {
         display: none;
       }
-
       @keyframes fadeUp {
         from {
           opacity: 0;
@@ -611,8 +545,6 @@
           transform: translateY(0);
         }
       }
-
-      /* Toast */
       #toast {
         position: fixed;
         top: 24px;
@@ -646,30 +578,76 @@
         fill: none;
         flex-shrink: 0;
       }
-
-      /* Chrome / Edge / Safari */
       ::-webkit-scrollbar {
         width: 8px;
       }
-
       ::-webkit-scrollbar-thumb {
         background: rgba(100, 116, 139, 0.35);
         border-radius: 999px;
       }
-
       ::-webkit-scrollbar-thumb:hover {
         background: rgba(100, 116, 139, 0.6);
       }
-
-      /* Firefox */
       * {
         scrollbar-width: thin;
         scrollbar-color: rgba(100, 116, 139, 0.4) transparent;
       }
+      #newDialog {
+        border: none;
+        border-radius: 12px;
+        padding: 24px;
+        max-width: 400px;
+        width: 90%;
+        background: var(--card-bg);
+        color: var(--text-pri);
+        position: fixed;
+        inset: 0;
+        margin: auto;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+      }
+      #newDialog::backdrop {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      #newDialog h2 {
+        margin: 0 0 16px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .form-group {
+        margin-bottom: 16px;
+      }
+      .form-group:last-of-type {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        color: var(--text-sec);
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 14px;
+        background: var(--bg);
+        color: var(--text-pri);
+        box-sizing: border-box;
+        font-family: inherit;
+      }
+      .form-group textarea {
+        resize: vertical;
+      }
+      .dialog-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
     </style>
   </head>
   <body>
-    <!-- ── MOBILE TOP NAV ── -->
     <nav id="topnav">
       <a class="topnav-logo" href="#">
         <div class="logo-icon">
@@ -695,11 +673,7 @@
         <div class="ham-lines"><span></span><span></span><span></span></div>
       </button>
     </nav>
-
-    <!-- ── OVERLAY ── -->
     <div id="overlay"></div>
-
-    <!-- ── SIDEBAR ── -->
     <aside id="sidebar">
       <div class="sidebar-header">
         <a class="sidebar-logo" href="#">
@@ -723,7 +697,6 @@
           <span class="logo-text">MyApp</span>
         </a>
       </div>
-
       <nav class="hide-scrollbar">
         <div class="nav-section">
           <div class="nav-label">主菜单</div>
@@ -800,7 +773,6 @@
           </a>
         </div>
       </nav>
-
       <div class="sidebar-footer">
         <div class="footer-links">
           <a class="nav-item" href="#" data-tip="帮助">
@@ -822,12 +794,7 @@
             <span class="label">反馈</span>
           </a>
           <a class="nav-item" href="#" data-tip="主题" id="themeToggle">
-            <span class="icon"
-              ><svg viewBox="0 0 24 24">
-                <path
-                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                /></svg
-            ></span>
+            <span class="icon" data-icon></span>
             <span class="label">夜间模式</span>
           </a>
           <button class="collapse-btn" id="collapseBtn" data-tip="展开">
@@ -854,8 +821,6 @@
         </div>
       </div>
     </aside>
-
-    <!-- ── MAIN CONTENT ── -->
     <main id="main">
       <div class="content-card">
         <div class="topbar">
@@ -865,11 +830,9 @@
             <button class="btn btn-primary" id="newBtn">+ 新建</button>
           </div>
         </div>
-
         <div class="content-body">
           <h1 class="page-heading">欢迎回来 👋</h1>
           <p class="page-sub">这是你的工作台，今天有 4 条新消息。</p>
-
           <div class="cards-grid">
             <div class="stat-card">
               <div class="s-label">总项目</div>
@@ -892,7 +855,6 @@
               <div class="s-change">↑ 5% 较上季</div>
             </div>
           </div>
-
           <div class="section-title">最近活动</div>
           <div>
             <div class="list-item">
@@ -926,9 +888,7 @@
                 <div class="item-name">v2.3 发布</div>
                 <div class="item-desc">CI/CD 流水线完成 · 5小时前</div>
               </div>
-              <span class="item-tag" style="background: #e0f2f1; color: #0d9488"
-                >已完成</span
-              >
+              <span class="item-tag green">已完成</span>
             </div>
             <div class="list-item">
               <div class="item-avatar">
@@ -942,9 +902,7 @@
                 <div class="item-name">Q3 数据报告</div>
                 <div class="item-desc">Tom 请求审核 · 昨天</div>
               </div>
-              <span class="item-tag" style="background: #fff3e0; color: #f97316"
-                >待审核</span
-              >
+              <span class="item-tag orange">待审核</span>
             </div>
             <div class="list-item">
               <div class="item-avatar">
@@ -971,15 +929,11 @@
                 <div class="item-name">安全审计</div>
                 <div class="item-desc">第三方安全评估报告 · 3天前</div>
               </div>
-              <span class="item-tag" style="background: #e0f2f1; color: #0d9488"
-                >已完成</span
-              >
+              <span class="item-tag green">已完成</span>
             </div>
           </div>
-
           <div>
             <p>这是第一段文字。这一段用于演示 HTML 段落排版效果。</p>
-
             <p>
               这是第二段文字。通过 CSS 设置 margin-bottom，
               可以让段落之间出现明显的空白间距。
@@ -988,7 +942,6 @@
               可以让段落之间出现明显的空白间距。
               可以让段落之间出现明显的空白间距。
             </p>
-
             <p>
               这是第三段文字。这种排版方式在博客、文章、
               公众号页面等场景中非常常见。
@@ -997,85 +950,18 @@
         </div>
       </div>
     </main>
-
-    <!-- 新建 Dialog -->
-    <dialog
-      id="newDialog"
-      style="
-        border: none;
-        border-radius: 12px;
-        padding: 24px;
-        max-width: 400px;
-        width: 90%;
-        background: var(--card-bg);
-        color: var(--text-pri);
-        position: fixed;
-        inset: 0;
-        margin: auto;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-      "
-    >
-      <style>
-        #newDialog::backdrop {
-          background: rgba(0, 0, 0, 0.4);
-        }
-      </style>
-      <h2 style="margin: 0 0 16px; font-size: 18px; font-weight: 600">
-        新建项目
-      </h2>
+    <dialog id="newDialog">
+      <h2>新建项目</h2>
       <form method="dialog">
-        <div style="margin-bottom: 16px">
-          <label
-            style="
-              display: block;
-              margin-bottom: 6px;
-              font-size: 13px;
-              color: var(--text-sec);
-            "
-            >项目名称</label
-          >
-          <input
-            type="text"
-            placeholder="输入项目名称"
-            style="
-              width: 100%;
-              padding: 8px 12px;
-              border: 1px solid var(--border);
-              border-radius: 6px;
-              font-size: 14px;
-              background: var(--bg);
-              color: var(--text-pri);
-              box-sizing: border-box;
-            "
-          />
+        <div class="form-group">
+          <label>项目名称</label
+          ><input type="text" placeholder="输入项目名称" />
         </div>
-        <div style="margin-bottom: 20px">
-          <label
-            style="
-              display: block;
-              margin-bottom: 6px;
-              font-size: 13px;
-              color: var(--text-sec);
-            "
-            >描述</label
-          >
-          <textarea
-            placeholder="输入项目描述"
-            rows="3"
-            style="
-              width: 100%;
-              padding: 8px 12px;
-              border: 1px solid var(--border);
-              border-radius: 6px;
-              font-size: 14px;
-              background: var(--bg);
-              color: var(--text-pri);
-              box-sizing: border-box;
-              resize: vertical;
-            "
-          ></textarea>
+        <div class="form-group">
+          <label>描述</label
+          ><textarea placeholder="输入项目描述" rows="3"></textarea>
         </div>
-        <div style="display: flex; gap: 10px; justify-content: flex-end">
+        <div class="dialog-actions">
           <button type="button" class="btn btn-ghost" id="cancelBtn">
             取消
           </button>
@@ -1083,123 +969,87 @@
         </div>
       </form>
     </dialog>
-
-    <!-- Toast -->
     <div id="toast"></div>
-
     <script>
-      const body = document.body;
-      const collapseBtn = document.getElementById("collapseBtn");
-      const hamBtn = document.getElementById("hamBtn");
-      const overlay = document.getElementById("overlay");
-      const themeToggle = document.getElementById("themeToggle");
-      const themeIcon = themeToggle.querySelector(".icon");
-      const themeLabel = themeToggle.querySelector(".label");
-
-      // Theme toggle
-      function initTheme() {
-        const savedTheme = localStorage.getItem("theme") || "light";
-        body.setAttribute("data-theme", savedTheme);
-        updateThemeUI(savedTheme);
-      }
-
-      function updateThemeUI(theme) {
-        if (theme === "dark") {
-          themeIcon.innerHTML =
-            '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-          themeLabel.textContent = "日间模式";
-          themeToggle.setAttribute("data-tip", "日间");
-        } else {
-          themeIcon.innerHTML =
-            '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-          themeLabel.textContent = "夜间模式";
-          themeToggle.setAttribute("data-tip", "主题");
-        }
-      }
-
-      function toggleTheme() {
-        const currentTheme = body.getAttribute("data-theme");
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        body.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateThemeUI(newTheme);
-      }
-
-      // Toast
-      function showToast(message, type = "success", duration = 2500) {
-        const toast = document.getElementById("toast");
+      (() => {
+        const body = document.body;
+        const $ = (id) => document.getElementById(id);
         const icons = {
-          success:
-            '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
-          error:
-            '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+          moon: '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+          sun: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
+          succ: '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+          err: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
         };
-        toast.innerHTML = icons[type] + message;
-        toast.className = type;
-        toast.style.opacity = "1";
-        toast.style.transform = "translateX(-50%) translateY(0)";
-        setTimeout(() => {
-          toast.style.opacity = "0";
-          toast.style.transform = "translateX(-50%) translateY(-100px)";
-        }, duration);
-      }
 
-      // New Dialog
-      const newBtn = document.getElementById("newBtn");
-      const newDialog = document.getElementById("newDialog");
-      const cancelBtn = document.getElementById("cancelBtn");
+        const themeToggle = $("themeToggle");
+        const themeIcon = themeToggle.querySelector("[data-icon]");
 
-      newBtn.addEventListener("click", () => {
-        newDialog.showModal();
-      });
+        const updateTheme = (theme) => {
+          themeIcon.innerHTML = icons[theme === "dark" ? "sun" : "moon"];
+          themeToggle.querySelector(".label").textContent =
+            theme === "dark" ? "日间模式" : "夜间模式";
+          themeToggle.dataset.tip = theme === "dark" ? "日间" : "主题";
+        };
 
-      cancelBtn.addEventListener("click", () => {
-        newDialog.close();
-      });
+        const initTheme = () => {
+          const saved = localStorage.getItem("theme") || "light";
+          body.dataset.theme = saved;
+          updateTheme(saved);
+        };
 
-      // PC collapse
-      collapseBtn.addEventListener("click", () =>
-        body.classList.toggle("collapsed")
-      );
+        const showToast = (msg, type = "success", dur = 2500) => {
+          const toast = $("toast");
+          toast.innerHTML = icons[type === "success" ? "succ" : "err"] + msg;
+          toast.className = type;
+          toast.style.opacity = "1";
+          toast.style.transform = "translateX(-50%) translateY(0)";
+          setTimeout(() => {
+            toast.style.opacity = "0";
+            toast.style.transform = "translateX(-50%) translateY(-100px)";
+          }, dur);
+        };
 
-      // Mobile menu
-      const toggleMob = (open) => body.classList.toggle("mob-open", open);
-      hamBtn.addEventListener("click", () =>
-        toggleMob(!body.classList.contains("mob-open"))
-      );
-      overlay.addEventListener("click", () => toggleMob(false));
+        $("newBtn").addEventListener("click", () => $("newDialog").showModal());
+        $("cancelBtn").addEventListener("click", () => $("newDialog").close());
+        $("collapseBtn").addEventListener("click", () =>
+          body.classList.toggle("collapsed")
+        );
+        $("hamBtn").addEventListener("click", () =>
+          body.classList.toggle(
+            "mob-open",
+            !body.classList.contains("mob-open")
+          )
+        );
+        $("overlay").addEventListener("click", () =>
+          body.classList.remove("mob-open")
+        );
 
-      // Theme toggle
-      themeToggle.addEventListener("click", (e) => {
-        e.preventDefault();
-        toggleTheme();
-      });
-
-      // Nav active state
-      document.querySelectorAll(".nav-item").forEach((item) => {
-        if (item.id === "themeToggle") return;
-        item.addEventListener("click", function (e) {
+        themeToggle.addEventListener("click", (e) => {
           e.preventDefault();
-          document
-            .querySelectorAll(".nav-item")
-            .forEach((i) => i.classList.remove("active"));
-          this.classList.add("active");
-          // Update topbar title
-          const label = this.querySelector(".label");
-          if (label)
-            document.querySelector(".topbar-title").textContent =
-              label.textContent.trim();
-          // Close mobile menu
-          if (window.innerWidth <= 768) toggleMob(false);
+          const t = body.dataset.theme === "dark" ? "light" : "dark";
+          body.dataset.theme = t;
+          localStorage.setItem("theme", t);
+          updateTheme(t);
         });
-      });
 
-      // Initialize theme on load
-      initTheme();
-      showToast("操作成功！", "success");
-      setTimeout(() => {
-        showToast("操作失败", "error", 3000);
-      }, 1000);
+        document.querySelectorAll(".nav-item").forEach((item) => {
+          if (item.id === "themeToggle") return;
+          item.addEventListener("click", (e) => {
+            e.preventDefault();
+            document
+              .querySelectorAll(".nav-item")
+              .forEach((i) => i.classList.remove("active"));
+            item.classList.add("active");
+            const label = item.querySelector(".label");
+            if (label) $("topbar-title").textContent = label.textContent.trim();
+            if (window.innerWidth <= 768) body.classList.remove("mob-open");
+          });
+        });
+
+        initTheme();
+        showToast("操作成功！", "success");
+        setTimeout(() => showToast("操作失败", "error", 3000), 1000);
+      })();
     </script>
   </body>
 </html>
