@@ -24,11 +24,14 @@ func RegisterRoutes(r *gin.Engine, h *handler.Handler) {
 	r.GET("/about", h.About) // 关于页面
 
 	// ==================== 用户管理 ====================
-	r.GET("/users", h.ListUsers)          // 用户列表页面
-	r.GET("/users/list", h.GetUsers)      // 用户列表片段（HTMX）
-	r.POST("/users", h.CreateUser)        // 创建用户
-	r.DELETE("/users/:id", h.DeleteUser)  // 删除用户
-	r.GET("/users/count", h.GetUserCount) // 用户数量
+	users := r.Group("/users")
+	{
+		users.GET("", h.ListUsers)          // 用户列表页面
+		users.GET("/list", h.GetUsers)      // 用户列表片段（HTMX）
+		users.POST("", h.CreateUser)        // 创建用户
+		users.DELETE("/:id", h.DeleteUser)  // 删除用户
+		users.GET("/count", h.GetUserCount) // 用户数量
+	}
 
 	// ==================== 联系表单 ====================
 	r.GET("/contact", h.ContactForm)    // 联系表单页面
