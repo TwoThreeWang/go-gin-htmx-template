@@ -6,30 +6,30 @@
     <title>My App</title>
     <style>
       :root {
-        --bg: #f0ede8;
-        --card-bg: #fdfcfa;
-        --accent: #d97757;
-        --accent-soft: #f2e8e3;
+        --bg: #f3f1ed;
+        --card-bg: #ffffff;
+        --accent: #dc5c44;
+        --accent-soft: #f9e8e5;
         --text-pri: #1e1b18;
-        --text-sec: #7a7069;
-        --text-muted: #b0a89e;
-        --border: rgba(0, 0, 0, 0.07);
-        --radius: 12px;
+        --text-sec: #4b4640;
+        --text-muted: #7a766f;
+        --border: #e8e4e0;
+        --radius: 8px;
         --sidebar-w: 240px;
         --sidebar-col: 64px;
         --top-h: 50px;
-        --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition: 0.15s ease;
       }
       /* Dark theme */
       body[data-theme="dark"] {
-        --bg: #1e1b18;
+        --bg: #1d1b18;
         --card-bg: #2a2724;
-        --accent: #e08262;
-        --accent-soft: #3a332f;
-        --text-pri: #f0ede8;
-        --text-sec: #b0a89e;
-        --text-muted: #7a7069;
-        --border: rgba(255, 255, 255, 0.07);
+        --accent: #e67a5d;
+        --accent-soft: #3a322f;
+        --text-pri: #f8f6f3;
+        --text-sec: #c8c3bd;
+        --text-muted: #a6a199;
+        --border: #37342f;
       }
 
       *,
@@ -41,16 +41,18 @@
       }
 
       body {
-        font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+          "Segoe UI Emoji";
         background: var(--bg);
         color: var(--text-pri);
         min-height: 100vh;
-        line-height: 1.65;
+        line-height: 1.7;
         display: flex;
         overflow: hidden;
         text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased; /* 让字体边缘更细腻，防止锯齿 */
-        -moz-osx-font-smoothing: grayscale; /* Firefox 优化 */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       /* ─── SIDEBAR ─────────────────────────────────────── */
@@ -70,23 +72,11 @@
       body.collapsed #sidebar {
         width: var(--sidebar-col);
         min-width: var(--sidebar-col);
-        -webkit-mask-image: linear-gradient(
-          to right,
-          black 0%,
-          black 60%,
-          transparent 100%
-        );
-        mask-image: linear-gradient(
-          to right,
-          black 0%,
-          black 60%,
-          transparent 100%
-        );
       }
 
       /* Logo header */
       .sidebar-header {
-        padding: 16px 12px 12px;
+        padding: 16px 10px 12px;
         min-height: 60px;
       }
 
@@ -105,14 +95,15 @@
       .logo-icon {
         width: 32px;
         height: 32px;
-        border-radius: 10px;
+        border-radius: 8px;
         background: var(--accent);
-        display: grid;
-        place-items: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex-shrink: 0;
         color: #fff;
         font-size: 16px;
-        font-weight: 800;
+        font-weight: 700;
         letter-spacing: -0.5px;
       }
 
@@ -121,17 +112,25 @@
         font-weight: 700;
         color: var(--text-pri);
         letter-spacing: -0.3px;
-        transition: opacity var(--transition);
+        transition: opacity var(--transition), width var(--transition);
       }
       body.collapsed .logo-text {
         opacity: 0;
+        width: 0;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
         pointer-events: none;
+      }
+      body.collapsed .sidebar-logo {
+        justify-content: center;
+        gap: 0;
       }
 
       /* Nav */
       nav {
         flex: 1;
-        padding: 4px 10px;
+        padding: 4px 8px;
         overflow: hidden auto;
       }
 
@@ -139,10 +138,10 @@
         margin-bottom: 20px;
       }
       .nav-label {
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.8px;
+        letter-spacing: 0.6px;
         color: var(--text-muted);
         padding: 0 6px 6px;
         white-space: nowrap;
@@ -157,25 +156,30 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 9px 10px;
-        border-radius: 10px;
+        padding: 8px;
+        border-radius: 6px;
         cursor: pointer;
         text-decoration: none;
         color: var(--text-sec);
-        font-size: 13.5px;
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 600;
         white-space: nowrap;
-        transition: background var(--transition), color var(--transition);
+        transition: all var(--transition);
         position: relative;
         border: none;
         background: transparent;
         text-align: left;
         width: 100%;
       }
+      body.collapsed .nav-item,
+      body.collapsed .collapse-btn {
+        gap: 0;
+        justify-content: center;
+      }
       .nav-item:hover,
       .collapse-btn:hover {
-        background: rgba(0, 0, 0, 0.05);
-        color: var(--text-pri);
+        background: var(--accent-soft);
+        color: var(--accent);
       }
       .nav-item.active {
         background: var(--accent-soft);
@@ -186,9 +190,44 @@
         width: 20px;
         height: 20px;
         flex-shrink: 0;
-        display: grid;
-        place-items: center;
-        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: margin var(--transition);
+      }
+      .nav-item .icon svg,
+      .collapse-btn .icon svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        stroke-width: 1.75;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      body.collapsed .nav-item .icon,
+      body.collapsed .collapse-btn .icon {
+        margin: 0;
+      }
+
+      .item-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: var(--accent-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .item-avatar svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--accent);
+        stroke-width: 1.75;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
       .nav-item .label,
       .collapse-btn .label {
@@ -197,18 +236,25 @@
       body.collapsed .nav-item .label,
       body.collapsed .collapse-btn .label {
         opacity: 0;
+        width: 0;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        border: none;
+        flex-shrink: 0;
       }
 
       /* Tooltip for collapsed */
       body.collapsed .nav-item::after {
         content: attr(data-tip);
         position: absolute;
-        left: calc(var(--sidebar-col) + 8px);
+        left: 100%;
+        margin-left: 8px;
         background: var(--text-pri);
         color: #fff;
         font-size: 12px;
         padding: 5px 10px;
-        border-radius: 7px;
+        border-radius: 6px;
         white-space: nowrap;
         pointer-events: none;
         opacity: 0;
@@ -223,26 +269,9 @@
         transform: rotate(180deg);
       }
 
-      /* Badge */
-      .badge {
-        margin-left: auto;
-        background: var(--accent);
-        color: #fff;
-        font-size: 10px;
-        font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 20px;
-        min-width: 18px;
-        text-align: center;
-        transition: opacity var(--transition);
-      }
-      body.collapsed .badge {
-        opacity: 0;
-      }
-
       /* Sidebar footer */
       .sidebar-footer {
-        padding: 12px 10px 16px;
+        padding: 12px 8px 16px;
         border-top: 1px solid var(--border);
         overflow: hidden;
       }
@@ -316,12 +345,12 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 6px 14px;
-        border-radius: 9px;
+        padding: 6px 12px;
+        border-radius: 6px;
         border: none;
         cursor: pointer;
         font-size: 13px;
-        font-weight: 550;
+        font-weight: 500;
         transition: background var(--transition), transform 0.1s;
       }
       .btn:active {
@@ -351,40 +380,33 @@
         padding: 24px;
         scroll-behavior: smooth;
         scrollbar-width: thin;
-        scrollbar-color: transparent transparent;
-        overflow-y: overlay;
-      }
-      .content-body:hover {
-        scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+        scrollbar-color: #e8e4e0 #f8f7f5;
+        overflow-y: auto;
       }
       .content-body::-webkit-scrollbar {
-        width: 4px;
+        width: 6px;
       }
       .content-body::-webkit-scrollbar-track {
-        background: transparent;
+        background: #f8f7f5;
       }
       .content-body::-webkit-scrollbar-thumb {
-        background: transparent;
-        border-radius: 99px;
-        transition: background 0.2s;
-      }
-      .content-body:hover::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.15);
+        background: #e8e4e0;
+        border-radius: 6px;
       }
       .content-body::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.25);
+        background: #d6d2ce;
       }
 
       /* Demo content styles */
       .page-heading {
-        font-size: 22px;
-        font-weight: 730;
-        letter-spacing: -0.4px;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.2px;
         color: var(--text-pri);
         margin-bottom: 6px;
       }
       .page-sub {
-        font-size: 13.5px;
+        font-size: 14px;
         color: var(--text-sec);
         margin-bottom: 28px;
       }
@@ -398,30 +420,31 @@
 
       .stat-card {
         background: var(--bg);
-        border-radius: 10px;
-        padding: 18px;
+        border-radius: 8px;
+        padding: 20px;
         border: 1px solid var(--border);
       }
       .stat-card .s-label {
-        font-size: 11.5px;
+        font-size: 12px;
         color: var(--text-muted);
         font-weight: 500;
         margin-bottom: 8px;
       }
       .stat-card .s-val {
-        font-size: 26px;
-        font-weight: 750;
-        letter-spacing: -0.5px;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
       }
       .stat-card .s-change {
-        font-size: 11.5px;
-        color: #5bad8a;
+        font-size: 12px;
+        color: #0d9488;
         margin-top: 4px;
+        font-weight: 500;
       }
 
       .section-title {
-        font-size: 14px;
-        font-weight: 650;
+        font-size: 15px;
+        font-weight: 600;
         margin-bottom: 12px;
         color: var(--text-pri);
       }
@@ -436,29 +459,19 @@
       .list-item:last-child {
         border-bottom: none;
       }
-      .item-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: var(--accent-soft);
-        display: grid;
-        place-items: center;
-        font-size: 16px;
-        flex-shrink: 0;
-      }
       .item-body {
         flex: 1;
         min-width: 0;
       }
       .item-name {
-        font-size: 13.5px;
+        font-size: 14px;
         font-weight: 600;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       .item-desc {
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-sec);
         margin-top: 2px;
       }
@@ -469,6 +482,7 @@
         border-radius: 6px;
         background: var(--accent-soft);
         color: var(--accent);
+        letter-spacing: 0.2px;
       }
 
       /* ─── MOBILE TOP NAV ──────────────────────────────── */
@@ -484,7 +498,6 @@
         align-items: center;
         justify-content: space-between;
         z-index: 100;
-        backdrop-filter: blur(10px);
       }
 
       /* Hamburger */
@@ -500,7 +513,7 @@
         border-radius: 9px;
       }
       .ham:hover {
-        background: rgba(0, 0, 0, 0.06);
+        background: var(--accent-soft);
       }
       .ham-lines {
         display: flex;
@@ -531,16 +544,16 @@
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.35);
+        background: rgba(0, 0, 0, 0.4);
         z-index: 80;
-        backdrop-filter: blur(2px);
       }
       body.mob-open #overlay {
         display: block;
       }
 
       p {
-        margin-bottom: 1.5em; /* 段落间留白 */
+        margin-bottom: 1.6em; /* 增加段落间距 */
+        line-height: 1.75; /* 为段落设置更舒适的行高 */
       }
 
       /* ─── RESPONSIVE ──────────────────────────────────── */
@@ -598,13 +611,84 @@
           transform: translateY(0);
         }
       }
+
+      /* Toast */
+      #toast {
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        z-index: 9999;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      #toast.success {
+        background: #0d9488;
+        color: #fff;
+      }
+      #toast.error {
+        background: #dc2626;
+        color: #fff;
+      }
+      #toast svg {
+        width: 16px;
+        height: 16px;
+        stroke: currentColor;
+        stroke-width: 2;
+        fill: none;
+        flex-shrink: 0;
+      }
+
+      /* Chrome / Edge / Safari */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(100, 116, 139, 0.35);
+        border-radius: 999px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 116, 139, 0.6);
+      }
+
+      /* Firefox */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(100, 116, 139, 0.4) transparent;
+      }
     </style>
   </head>
   <body>
     <!-- ── MOBILE TOP NAV ── -->
     <nav id="topnav">
       <a class="topnav-logo" href="#">
-        <div class="logo-icon">M</div>
+        <div class="logo-icon">
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path
+              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+            />
+          </svg>
+        </div>
         <span class="logo-text">MyApp</span>
       </a>
       <button class="ham" id="hamBtn" aria-label="菜单">
@@ -619,7 +703,23 @@
     <aside id="sidebar">
       <div class="sidebar-header">
         <a class="sidebar-logo" href="#">
-          <div class="logo-icon">M</div>
+          <div class="logo-icon">
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path
+                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+              />
+            </svg>
+          </div>
           <span class="logo-text">MyApp</span>
         </a>
       </div>
@@ -628,35 +728,74 @@
         <div class="nav-section">
           <div class="nav-label">主菜单</div>
           <a class="nav-item active" href="#" data-tip="概览">
-            <span class="icon">⊞</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" /></svg
+            ></span>
             <span class="label">概览</span>
           </a>
           <a class="nav-item" href="#" data-tip="消息">
-            <span class="icon">✉</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                />
+                <polyline points="22,6 12,13 2,6" /></svg
+            ></span>
             <span class="label">消息</span>
-            <span class="badge">4</span>
           </a>
           <a class="nav-item" href="#" data-tip="项目">
-            <span class="icon">◫</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" /></svg
+            ></span>
             <span class="label">项目</span>
           </a>
           <a class="nav-item" href="#" data-tip="分析">
-            <span class="icon">◎</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" /></svg
+            ></span>
             <span class="label">分析</span>
           </a>
           <a class="nav-item" href="#" data-tip="日历">
-            <span class="icon">◻</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" /></svg
+            ></span>
             <span class="label">日历</span>
           </a>
         </div>
         <div class="nav-section">
           <div class="nav-label">管理</div>
           <a class="nav-item" href="#" data-tip="团队">
-            <span class="icon">◈</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+            ></span>
             <span class="label">团队</span>
           </a>
           <a class="nav-item" href="#" data-tip="设置">
-            <span class="icon">⚙</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                /></svg
+            ></span>
             <span class="label">设置</span>
           </a>
         </div>
@@ -665,19 +804,42 @@
       <div class="sidebar-footer">
         <div class="footer-links">
           <a class="nav-item" href="#" data-tip="帮助">
-            <span class="icon">?</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" /></svg
+            ></span>
             <span class="label">帮助中心</span>
           </a>
           <a class="nav-item" href="#" data-tip="反馈">
-            <span class="icon">♡</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                /></svg
+            ></span>
             <span class="label">反馈</span>
           </a>
           <a class="nav-item" href="#" data-tip="主题" id="themeToggle">
-            <span class="icon">🌙</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                /></svg
+            ></span>
             <span class="label">夜间模式</span>
           </a>
           <button class="collapse-btn" id="collapseBtn" data-tip="展开">
-            <span class="icon">‹</span>
+            <span class="icon"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M8 5l8 7-8 7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                /></svg
+            ></span>
             <span class="label">收起侧栏</span>
           </button>
         </div>
@@ -700,7 +862,7 @@
           <span class="topbar-title">概览</span>
           <div class="topbar-actions">
             <button class="btn btn-ghost">导出</button>
-            <button class="btn btn-primary">+ 新建</button>
+            <button class="btn btn-primary" id="newBtn">+ 新建</button>
           </div>
         </div>
 
@@ -734,7 +896,13 @@
           <div class="section-title">最近活动</div>
           <div>
             <div class="list-item">
-              <div class="item-avatar">📂</div>
+              <div class="item-avatar">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                  />
+                </svg>
+              </div>
               <div class="item-body">
                 <div class="item-name">设计系统重构</div>
                 <div class="item-desc">Anna 更新了组件库 · 2小时前</div>
@@ -742,27 +910,50 @@
               <span class="item-tag">进行中</span>
             </div>
             <div class="list-item">
-              <div class="item-avatar">🚀</div>
+              <div class="item-avatar">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"
+                  />
+                  <path
+                    d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"
+                  />
+                  <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                  <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                </svg>
+              </div>
               <div class="item-body">
                 <div class="item-name">v2.3 发布</div>
                 <div class="item-desc">CI/CD 流水线完成 · 5小时前</div>
               </div>
-              <span class="item-tag" style="background: #e3f5ec; color: #5bad8a"
+              <span class="item-tag" style="background: #e0f2f1; color: #0d9488"
                 >已完成</span
               >
             </div>
             <div class="list-item">
-              <div class="item-avatar">📊</div>
+              <div class="item-avatar">
+                <svg viewBox="0 0 24 24">
+                  <line x1="18" y1="20" x2="18" y2="10" />
+                  <line x1="12" y1="20" x2="12" y2="4" />
+                  <line x1="6" y1="20" x2="6" y2="14" />
+                </svg>
+              </div>
               <div class="item-body">
                 <div class="item-name">Q3 数据报告</div>
                 <div class="item-desc">Tom 请求审核 · 昨天</div>
               </div>
-              <span class="item-tag" style="background: #f5ede3; color: #c47a3a"
+              <span class="item-tag" style="background: #fff3e0; color: #f97316"
                 >待审核</span
               >
             </div>
             <div class="list-item">
-              <div class="item-avatar">💬</div>
+              <div class="item-avatar">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                  />
+                </svg>
+              </div>
               <div class="item-body">
                 <div class="item-name">用户反馈整理</div>
                 <div class="item-desc">整理了 32 条用户建议 · 2天前</div>
@@ -770,12 +961,17 @@
               <span class="item-tag">进行中</span>
             </div>
             <div class="list-item">
-              <div class="item-avatar">🔐</div>
+              <div class="item-avatar">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </div>
               <div class="item-body">
                 <div class="item-name">安全审计</div>
                 <div class="item-desc">第三方安全评估报告 · 3天前</div>
               </div>
-              <span class="item-tag" style="background: #e3f5ec; color: #5bad8a"
+              <span class="item-tag" style="background: #e0f2f1; color: #0d9488"
                 >已完成</span
               >
             </div>
@@ -802,6 +998,95 @@
       </div>
     </main>
 
+    <!-- 新建 Dialog -->
+    <dialog
+      id="newDialog"
+      style="
+        border: none;
+        border-radius: 12px;
+        padding: 24px;
+        max-width: 400px;
+        width: 90%;
+        background: var(--card-bg);
+        color: var(--text-pri);
+        position: fixed;
+        inset: 0;
+        margin: auto;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+      "
+    >
+      <style>
+        #newDialog::backdrop {
+          background: rgba(0, 0, 0, 0.4);
+        }
+      </style>
+      <h2 style="margin: 0 0 16px; font-size: 18px; font-weight: 600">
+        新建项目
+      </h2>
+      <form method="dialog">
+        <div style="margin-bottom: 16px">
+          <label
+            style="
+              display: block;
+              margin-bottom: 6px;
+              font-size: 13px;
+              color: var(--text-sec);
+            "
+            >项目名称</label
+          >
+          <input
+            type="text"
+            placeholder="输入项目名称"
+            style="
+              width: 100%;
+              padding: 8px 12px;
+              border: 1px solid var(--border);
+              border-radius: 6px;
+              font-size: 14px;
+              background: var(--bg);
+              color: var(--text-pri);
+              box-sizing: border-box;
+            "
+          />
+        </div>
+        <div style="margin-bottom: 20px">
+          <label
+            style="
+              display: block;
+              margin-bottom: 6px;
+              font-size: 13px;
+              color: var(--text-sec);
+            "
+            >描述</label
+          >
+          <textarea
+            placeholder="输入项目描述"
+            rows="3"
+            style="
+              width: 100%;
+              padding: 8px 12px;
+              border: 1px solid var(--border);
+              border-radius: 6px;
+              font-size: 14px;
+              background: var(--bg);
+              color: var(--text-pri);
+              box-sizing: border-box;
+              resize: vertical;
+            "
+          ></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end">
+          <button type="button" class="btn btn-ghost" id="cancelBtn">
+            取消
+          </button>
+          <button type="submit" class="btn btn-primary">创建</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Toast -->
+    <div id="toast"></div>
+
     <script>
       const body = document.body;
       const collapseBtn = document.getElementById("collapseBtn");
@@ -820,11 +1105,13 @@
 
       function updateThemeUI(theme) {
         if (theme === "dark") {
-          themeIcon.textContent = "☀️";
+          themeIcon.innerHTML =
+            '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
           themeLabel.textContent = "日间模式";
           themeToggle.setAttribute("data-tip", "日间");
         } else {
-          themeIcon.textContent = "🌙";
+          themeIcon.innerHTML =
+            '<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
           themeLabel.textContent = "夜间模式";
           themeToggle.setAttribute("data-tip", "主题");
         }
@@ -837,6 +1124,38 @@
         localStorage.setItem("theme", newTheme);
         updateThemeUI(newTheme);
       }
+
+      // Toast
+      function showToast(message, type = "success", duration = 2500) {
+        const toast = document.getElementById("toast");
+        const icons = {
+          success:
+            '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+          error:
+            '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+        };
+        toast.innerHTML = icons[type] + message;
+        toast.className = type;
+        toast.style.opacity = "1";
+        toast.style.transform = "translateX(-50%) translateY(0)";
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          toast.style.transform = "translateX(-50%) translateY(-100px)";
+        }, duration);
+      }
+
+      // New Dialog
+      const newBtn = document.getElementById("newBtn");
+      const newDialog = document.getElementById("newDialog");
+      const cancelBtn = document.getElementById("cancelBtn");
+
+      newBtn.addEventListener("click", () => {
+        newDialog.showModal();
+      });
+
+      cancelBtn.addEventListener("click", () => {
+        newDialog.close();
+      });
 
       // PC collapse
       collapseBtn.addEventListener("click", () =>
@@ -877,6 +1196,10 @@
 
       // Initialize theme on load
       initTheme();
+      showToast("操作成功！", "success");
+      setTimeout(() => {
+        showToast("操作失败", "error", 3000);
+      }, 1000);
     </script>
   </body>
 </html>
